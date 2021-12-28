@@ -4,6 +4,8 @@ const mongoose = require("mongoose")
 // const { findOneAndUpdate } = require("../models/productModel")
 
 
+
+
 const isValid = function (value) {
     if (typeof value === 'undefined' || value === null) return false
     if (typeof value === 'string' && value.trim().length === 0) return false
