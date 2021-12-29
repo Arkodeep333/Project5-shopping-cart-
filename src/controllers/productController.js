@@ -265,7 +265,7 @@ const deleteProduct = async function(req,res){
            return  res.status(400).send({status: false, msg: "The given ProductId is invalid"})
         }
         let fAndUp = await ProductModel.findOneAndUpdate({_id: dParam, isDeleted: false},
-             {isDeleted: true}, {new: true})
+             {isDeleted: true,deletedAt: Date.now()}, {new: true})
         if(!fAndUp){
             return res.status(404).send({status: false, msg: "Product does not exist"})
         }else{
