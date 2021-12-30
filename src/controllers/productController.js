@@ -50,7 +50,7 @@ const CreateProduct = async function (req, res) {
             return res.status(400).send({ status: false, message: 'Enter a valid price' })
 
         }
-        // let lc = title.toLowerCase()
+        
         let findTitle = await ProductModel.find({title: title.toLowerCase()})
         if(findTitle.length !=0){
             res.status(400).send({status: false, msg: "title already exists"})
