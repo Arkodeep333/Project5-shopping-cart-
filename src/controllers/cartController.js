@@ -2,7 +2,7 @@ const cartModel = require("../models/cartModel")
 const productModel = require("../models/productModel")
 const userModel = require("../models/userModel")
 const mongoose = require("mongoose")
-const { findOneAndUpdate } = require("../models/userModel")
+// const { findOneAndUpdate } = require("../models/userModel")
 
 const isValid = function (value) {
     if (typeof value === 'undefined' || value === null) return false

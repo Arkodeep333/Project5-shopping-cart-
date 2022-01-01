@@ -21,7 +21,7 @@ const createOrder = async function(req,res){
             return res.status(401).send({status: false, msg: "userId does not match"})
         }
         let cartBody = req.body
-        const {cancellable,status, isDeleted }= cartBody
+        const {cancellable,status }= cartBody
         if(!(validStatus(status))){
             return res.status(400).send({status: false, msg: "Provide a valid status"})
         }
@@ -29,9 +29,7 @@ const createOrder = async function(req,res){
         if(!checkUser){
             return res.status(400).send({status: false, msg: "The user does not exist"})
         }
-        if(isDeleted == true){
-            var delDate = Date.now()
-        }
+        
         let checkCart = await cartModel.findOne({userId: userId}).
         select({items: 1, totalPrice: 1, totalItems: 1 })
         if(!checkCart){
@@ -40,7 +38,7 @@ const createOrder = async function(req,res){
         let order = {userId: userId, items: checkCart.items,
              totalPrice: checkCart.totalPrice,totalItems: checkCart.totalItems,
               totalQuantity: checkCart.totalItems, 
-            cancellable: cancellable, status: status, deletedAt: delDate}
+            cancellable: cancellable, status: status}
         let orderCreate = await orderModel.create(order) 
         res.status(201).send({status: true, msg: "Success", data: orderCreate})
     }catch(err){
