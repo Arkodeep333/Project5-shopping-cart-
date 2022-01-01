@@ -121,6 +121,12 @@ const updateCart = async function(req,res){
             }
         }
         if(updateItems.length == 0){
+            if(removeProduct == 1){
+            
+                let decreaseQty = await cartModel.findOneAndUpdate({_id: cartId, "items.$.productId": productId},
+                    {$inc:{"items.$.quantity": -1, totalItems: -1}}, {new: true})
+                    return res.status(400).send({status: true, msg: "qty decreased", data: decreaseQty})
+            }
             let noProduct = await cartModel.findOneAndUpdate({_id: cartId},
                 {items: [], totalPrice: 0, totalItems: 0}, {new: true})
 
@@ -147,12 +153,12 @@ const updateCart = async function(req,res){
         // let deleteProduct = cartModel.findOneAndUpdate( { _id:cartId}, { $pull: { items: [{ productId: productId }] } } )
            return  res.status(200).send({status: true, data: deleteProduct})
         }
-        if(removeProduct == 1){
-            // let qtyDec = await cartModel
-            let decreaseQty = await cartModel.findOneAndUpdate({_id: cartId, "items.$.productId": productId},
-                {$inc:{"items.$.quantity": -1, totalItems: -1}}, {new: true})
-                return res.status(400).send({status: true, msg: "qty decreased", data: decreaseQty})
-        }
+        // if(removeProduct == 1){
+        //     // let qtyDec = await cartModel
+        //     let decreaseQty = await cartModel.findOneAndUpdate({_id: cartId, "items.$.productId": productId},
+        //         {$inc:{"items.$.quantity": -1, totalItems: -1}}, {new: true})
+        //         return res.status(400).send({status: true, msg: "qty decreased", data: decreaseQty})
+        // }
 
     }catch(err){
         res.status(500).send({status: false, msg: err.message})
